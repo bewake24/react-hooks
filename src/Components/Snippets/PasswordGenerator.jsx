@@ -8,7 +8,6 @@ function PasswordGenerator() {
   const passwordRef = useRef(null);
   const generatePassword = useCallback(() => {
     let password = "";
-    // length = length ? length : 8;
     let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let numbers = "0123456789";
     let symbols = "!@#$%^&*()_+~`|}{[]:;?><,./-=";

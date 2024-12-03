@@ -7,9 +7,11 @@ import ToDos from "./Components/Snippets/ToDos";
 import CityPicker from "./Components/Snippets/CityPicker";
 import BgChanger from "./Components/Snippets/BgChanger";
 import PasswordGenerator from "./Components/Snippets/PasswordGenerator";
+import CurrencyConverter from "./Pages/currencyConverter/CurrencyConverter";
 
 const router = createBrowserRouter([
-  { path: "/", element: <PasswordGenerator /> },
+  { path: "/", element: <CurrencyConverter /> },
+  { path: "/passwordgenerator", element: <PasswordGenerator /> },
   { path: "/bgchanger", element: <BgChanger /> },
   { path: "/citypicker", element: <CityPicker /> },
   { path: "/todos", element: <ToDos /> },
