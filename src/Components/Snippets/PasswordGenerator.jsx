@@ -1,43 +1,36 @@
-import React, { useEffect, useState } from "react";
-
-const generateRandomInRange = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
-
-const suffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-};
-const generatePassword = (length, hasNumbers, hasSymbols) => {
-  let password = [];
-  length = length ? length : 8;
-  hasNumbers = hasNumbers ? hasNumbers : false;
-  hasSymbols = hasSymbols ? hasSymbols : false;
-
-  for (let i = 0; i < Math.floor(length); i++) {
-    if (generateRandomInRange(0, 1) === 1) {
-      password.push(String.fromCharCode(generateRandomInRange(65, 90)));
-    } else {
-      password.push(String.fromCharCode(generateRandomInRange(97, 122)));
-    }
-    if (hasNumbers) {
-      password.push(String.fromCharCode(generateRandomInRange(48, 57)));
-    }
-    if (hasSymbols) {
-      password.push(String.fromCharCode(generateRandomInRange(33, 47)));
-    }
-  }
-  return suffleArray(password.slice(0, length)).join("");
-};
+import React, { useEffect, useState, useCallback, useRef } from "react";
 
 function PasswordGenerator() {
   const [length, setLength] = useState(8);
   const [numbersAllowed, setNumbersAllowed] = useState(false);
   const [symbolsAllowed, setSymbolsAllowed] = useState(false);
+  const [password, setPassword] = useState("");
+  const passwordRef = useRef(null);
+  const generatePassword = useCallback(() => {
+    let password = "";
+    // length = length ? length : 8;
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let numbers = "0123456789";
+    let symbols = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
+    if (numbersAllowed) {
+      characters += numbers;
+    }
+    if (symbolsAllowed) {
+      characters += symbols;
+    }
+    for (let i = 0; i < length; i++) {
+      password += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
+    setPassword(password);
+  }, [length, numbersAllowed, symbolsAllowed]);
+
+  useEffect(() => {
+    generatePassword();
+  }, [length, numbersAllowed, symbolsAllowed]);
+
+  useRef(() => {}, [passwordRef]);
 
   return (
     <div className="bg-slate-800 h-screen w-full">
@@ -53,15 +46,15 @@ function PasswordGenerator() {
           <input
             type="text"
             placeholder="Password"
-            value={generatePassword(length, numbersAllowed, symbolsAllowed)}
+            value={password}
+            ref={passwordRef}
             className="text-2xl mt-4 bg-white text-slate-800 px-8 py-2 rounded-l-full grow outline-none"
           />
           <button
-            onClick={() =>
-              navigator.clipboard.writeText(
-                generatePassword(length, numbersAllowed, symbolsAllowed)
-              )
-            }
+            onClick={() => {
+              window.navigator.clipboard.writeText(password);
+              passwordRef.current?.select();
+            }}
             className="bg-slate-800 mt-4 text-white px-8 py-2 rounded-r-full"
           >
             Copy
