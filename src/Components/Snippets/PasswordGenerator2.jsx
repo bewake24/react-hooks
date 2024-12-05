@@ -27,6 +27,7 @@ const PasswordGenerator2 = () => {
   const [hasSym, setHasSym] = useState(false);
   const [password, setPassword] = useState("");
   const passwordRef = useRef(null);
+  const regenerateTimeoutRef = useRef(null);
 
   const passwordGenerator = useCallback(generatePassword, [
     length,
@@ -37,6 +38,7 @@ const PasswordGenerator2 = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setPassword(passwordGenerator(length, hasNo, hasSym));
+      passwordRef.current.className = "bg-white";
     }, 500);
     if (timeout) {
       return () => clearTimeout(timeout);
@@ -56,6 +58,17 @@ const PasswordGenerator2 = () => {
     passwordRef.current.className = "bg-purple-500";
     window.navigator.clipboard.writeText(password);
   };
+
+  const handleRegenrate = () => {
+    if (regenerateTimeoutRef.current) {
+      clearTimeout(regenerateTimeoutRef.current);
+    }
+    regenerateTimeoutRef.current = setTimeout(() => {
+      passwordRef.current.className = "bg-white";
+      setPassword(passwordGenerator(length, hasNo, hasSym));
+      regenerateTimeoutRef.current = null; // Reset ref after execution
+    }, 200);
+  };
   return (
     <div className="bg-slate-200 h-screen">
       <Header title={"Password Generator Practice"} />
@@ -70,14 +83,7 @@ const PasswordGenerator2 = () => {
         Copy
       </button>
       <button
-        onClick={() => {
-          const timeout = setTimeout(() => {
-            setPassword(passwordGenerator(length, hasNo, hasSym));
-          }, 500);
-          if (timeout) {
-            return () => clearTimeout(timeout);
-          }
-        }}
+        onClick={handleRegenrate}
         className="border border-black px-8 py-2"
       >
         {" "}
