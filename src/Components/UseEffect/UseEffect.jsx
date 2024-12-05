@@ -4,6 +4,7 @@ import Header from "../Header";
 function UseEffect() {
   const [count, setCount] = useState(0);
   const [message, setMessage] = useState("");
+  const [effectMessage, setEffectMessage] = useState("Effect not added yet");
   const increament = () => {
     setCount(count + 1);
     setMessage("");
@@ -18,6 +19,7 @@ function UseEffect() {
 
   useEffect(() => {
     console.log("Count: " + count);
+    setEffectMessage(`I rendered because effect happened ${count} times`);
 
     return () => {
       console.log("I'm being cleanedup");
@@ -42,6 +44,7 @@ function UseEffect() {
           -
         </button>
         <p className="text-2xl mt-2 text-red-500">{message}</p>
+        <p>{effectMessage}</p>
       </div>
     </div>
   );

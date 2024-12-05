@@ -11,8 +11,6 @@ function CurrencyConverter() {
   const currencyInfo = useCurrencyInfo(from);
   const options = Object.keys(currencyInfo);
 
-  console.log(options);
-
   const convert = () => {
     setConvertedAmount(amount * currencyInfo[to]);
   };
