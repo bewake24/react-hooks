@@ -2,6 +2,7 @@ import React, { useState, memo, useCallback } from "react";
 import Header from "../Header";
 
 const ChildComponent = memo(({ buttonName, onClick }) => {
+  console.log("Pink Child component rendered");
   return (
     <button
       onClick={onClick}
@@ -13,6 +14,7 @@ const ChildComponent = memo(({ buttonName, onClick }) => {
 });
 
 function ChildComponentFn({ buttonName, classes }) {
+  console.log("Blue Child component rendered");
   return <button className={classes}>{buttonName}</button>;
 }
 const MemoizedChildComponent = memo(ChildComponentFn);
