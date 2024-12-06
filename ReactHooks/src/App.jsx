@@ -12,7 +12,7 @@ import PasswordGenerator from "./Components/Snippets/PasswordGenerator";
 import PasswordGenerator2 from "./Components/Snippets/PasswordGenerator2";
 import CurrencyConverter from "./Pages/currencyConverter/CurrencyConverter";
 import User from "./Components/User/User";
-
+import ContextApiTodos from "./Components/ToDos/Todos";
 const router = createBrowserRouter([
   { path: "/user", element: <User /> },
   { path: "/currencyconverter", element: <CurrencyConverter /> },
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
   { path: "/bgchanger", element: <BgChanger /> },
   { path: "/citypicker", element: <CityPicker /> },
   { path: "/todos", element: <ToDos /> },
+  { path: "/contextapitodos", element: <ContextApiTodos /> },
   { path: "/usestate", element: <UseState /> },
   { path: "/useEffect", element: <UseEffect /> },
   { path: "/usememo", element: <UseMemo /> },
