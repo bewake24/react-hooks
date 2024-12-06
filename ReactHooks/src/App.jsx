@@ -11,8 +11,10 @@ import BgChanger from "./Components/Snippets/BgChanger";
 import PasswordGenerator from "./Components/Snippets/PasswordGenerator";
 import PasswordGenerator2 from "./Components/Snippets/PasswordGenerator2";
 import CurrencyConverter from "./Pages/currencyConverter/CurrencyConverter";
+import User from "./Components/User/User";
 
 const router = createBrowserRouter([
+  { path: "/user", element: <User /> },
   { path: "/currencyconverter", element: <CurrencyConverter /> },
   { path: "/passwordgenerator", element: <PasswordGenerator /> },
   { path: "/passwordgenerator2", element: <PasswordGenerator2 /> },
