@@ -1,21 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { TodoProvider } from "./Todo.context";
 import AddTodo from "./AddTodo";
-import Header from "../Header";
-import { TodoProvider, useTodo } from "./Todo.context";
-import Todo from "./Todo";
+import TodoItem from "./TodoItem";
 
 function Todos() {
-  const { title } = useTodo();
+  const [todos, setTodos] = useState([]);
+  const addTodo = (todo) => {
+    setTodos((prev) => [
+      {
+        id: Date.now(),
+        isComplete: false,
+        ...todo,
+      },
+      ...prev,
+    ]);
 
-  useEffect(() => {
-    console.log(title);
-  }, [title]);
+    console.log(todos);
+  };
+  const deleteTodo = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+  const updateTodo = (id, todo) => {
+    setTodos((prev) =>
+      prev.map((prevTodo) =>
+        prevTodo.id === id ? { ...prevTodo, ...todo } : prevTodo
+      )
+    );
+  };
+  const toggleTodo = (id) => {
+    setTodos((prev) =>
+      prev.map((prevTodo) =>
+        prevTodo.id === id
+          ? { ...prevTodo, isComplete: !prevTodo.isComplete }
+          : prevTodo
+      )
+    );
+  };
+
   return (
-    <TodoProvider>
-      <div className="h-screen bg-slate-600">
-        <Header title="ToDos" />
+    <TodoProvider
+      value={{ todos, addTodo, deleteTodo, updateTodo, toggleTodo }}
+    >
+      <div className="p-4 border border-slate-400 ">
+        <h1 className="text-6xl text-center font-bold">ToDos</h1>
         <AddTodo />
-        {title ? <Todo /> : <h3>Congrats list is empty</h3>}
+        {todos.map((todo) => (
+          <TodoItem key={todo.id} todo={todo} />
+        ))}
       </div>
     </TodoProvider>
   );

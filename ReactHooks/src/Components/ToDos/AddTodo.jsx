@@ -1,55 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef } from "react";
 import { useTodo } from "./Todo.context";
 
-function Todo() {
-  const { setTodos, id, isComplete, title } = useTodo();
+function AddTodo() {
   const [todoTitle, setTodoTitle] = useState("");
-  const [isToDoComplete, setIsToDoComplete] = useState(false);
-
-  const addTodo = () => {
-    console.log(id, title, isComplete);
-    const newTodo = {
-      title: todoTitle,
-      isComplete: isToDoComplete,
-    };
-    setTodos(newTodo);
+  const inputRef = useRef(null);
+  const { addTodo } = useTodo();
+  const add = (e) => {
+    e.preventDefault();
+    addTodo({ title: todoTitle });
+    setTodoTitle("");
+    inputRef.current.value = "";
   };
-
-  useEffect(() => {
-    console.log(isToDoComplete);
-  }, [isToDoComplete]);
-
   return (
-    <div className="p-4 m-4 border border-slate-400 rounded flex">
+    <form onSubmit={add} className="flex">
       <input
         type="text"
-        placeholder="Add a task"
+        ref={inputRef}
         onChange={(e) => setTodoTitle(e.target.value)}
-        className="flex-grow rounded p-1 outline-none"
+        className="border border-slate-400 outline-none rounded-l-lg bg-transparent p-1  mt-4 ml-4 flex-grow"
       />
       <button
-        onClick={addTodo}
-        className="bg-blue-500 text-white px-4 py-2 rounded ml-4"
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded-r-lg mt-4 mr-4"
       >
-        +
+        Add
       </button>
-      <button className="bg-red-500 text-white px-4 py-2 rounded ml-4">
-        X
-      </button>
-      <button className="bg-green-500 text-white px-4 py-2 rounded ml-4">
-        📝
-      </button>
-      <button className="bg-yellow-500 text-white px-4 py-2 rounded ml-4">
-        ✔️
-      </button>
-      <button
-        onClick={() => setIsToDoComplete((prev) => !prev)}
-        className="bg-pink-500 text-white px-4 py-2 rounded ml-4"
-      >
-        "✅"
-      </button>
-    </div>
+    </form>
   );
 }
 
-export default Todo;
+export default AddTodo;

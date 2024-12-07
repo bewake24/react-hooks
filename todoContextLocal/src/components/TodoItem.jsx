@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTodo } from "../contexts";
 
-function AllTodos({ todo }) {
+function TodoItem({ todo }) {
   const [isTodoEditable, setIsTodoEditable] = useState(false);
   const [todoMsg, setTodoMsg] = useState(todo.todo);
   const { updateTodo, deleteTodo, toggleTodo } = useTodo();
@@ -61,4 +61,4 @@ function AllTodos({ todo }) {
   );
 }
 
-export default AllTodos;
+export default TodoItem;
